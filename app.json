@@ -1,0 +1,8 @@
+{
+  "android": {
+    "package": "com.anonymous.worldcup2026"
+  },
+  "ios": {
+    "bundleIdentifier": "com.anonymous.worldcup2026"
+  }
+}
