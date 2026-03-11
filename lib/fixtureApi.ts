@@ -73,7 +73,7 @@ function parseCustomJson(data: unknown): Match[] {
 /** API-Football response: { response: [ { fixture, league, teams, goals } ] } */
 function parseApiFootballResponse(data: unknown): Match[] {
   const obj = data as { response?: Array<{
-    fixture?: { id?: number; date?: string; venue?: { name?: string }; status?: { short?: string } };
+    fixture?: { id?: number; date?: string; venue?: { name?: string; city?: string }; status?: { short?: string } };
     league?: { round?: string };
     teams?: { home?: { name?: string }; away?: { name?: string } };
     goals?: { home?: number | null; away?: number | null };
@@ -98,6 +98,7 @@ function parseApiFootballResponse(data: unknown): Match[] {
       date: dateStr,
       time: dateStr ? new Date(dateStr).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : undefined,
       venue: fixture.venue?.name,
+      city: fixture.venue?.city,
       stage: item?.league?.round,
       homeGoals: goals.home ?? null,
       awayGoals: goals.away ?? null,

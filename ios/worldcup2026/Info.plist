@@ -44,6 +44,10 @@
       <key>NSAllowsLocalNetworking</key>
       <true/>
     </dict>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>This identifier will be used to deliver more relevant ads to you.</string>
+    <key>GADApplicationIdentifier</key>
+    <string>ca-app-pub-3940256099942544~1458002511</string>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>

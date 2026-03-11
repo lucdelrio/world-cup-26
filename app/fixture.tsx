@@ -9,6 +9,8 @@ import {
   View,
 } from 'react-native';
 
+import { AdBanner } from '../components/AdBanner';
+import { FlagIcon } from '../components/FlagIcon';
 import { fetchFixture, getFixtureSource } from '../lib/fixtureApi';
 import { t } from '../lib/i18n';
 import type { Match } from '../lib/types';
@@ -28,6 +30,12 @@ function formatDate(date: string): string {
 function scoreLabel(match: Match): string {
   if (match.homeGoals == null || match.awayGoals == null) return '-';
   return `${match.homeGoals} - ${match.awayGoals}`;
+}
+
+function getLocationLabel(match: Match): string {
+  const locationParts = [match.venue, match.city].filter(Boolean) as string[];
+  if (!locationParts.length) return t('tbdLabel');
+  return locationParts.join(', ');
 }
 
 export default function FixtureScreen() {
@@ -96,9 +104,16 @@ export default function FixtureScreen() {
         renderItem={({ item }) => (
           <View style={styles.card}>
             <Text style={styles.stage}>{item.stage || t('defaultStage')}</Text>
-            <Text style={styles.teams}>{item.homeTeam} {t('versus')} {item.awayTeam}</Text>
+            <View style={styles.teamsRow}>
+              <Text style={styles.teamName}>{item.homeTeam}</Text>
+              <FlagIcon teamName={item.homeTeam} />
+              <Text style={styles.versus}>{t('versus')}</Text>
+              <FlagIcon teamName={item.awayTeam} />
+              <Text style={styles.teamName}>{item.awayTeam}</Text>
+            </View>
+            <Text style={styles.meta}>{t('roundLabel')}: {item.stage || t('tbdLabel')}</Text>
+            <Text style={styles.meta}>{t('locationLabel')}: {getLocationLabel(item)}</Text>
             <Text style={styles.meta}>{formatDate(item.date)}</Text>
-            {item.venue ? <Text style={styles.meta}>{item.venue}</Text> : null}
             <Text style={styles.score}>{t('resultLabel')}: {scoreLabel(item)}</Text>
           </View>
         )}
@@ -107,6 +122,7 @@ export default function FixtureScreen() {
             <Text style={styles.emptyText}>{t('emptyFixture')}</Text>
           </View>
         }
+        ListFooterComponent={<AdBanner />}
       />
     </View>
   );
@@ -154,11 +170,22 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textTransform: 'uppercase',
   },
-  teams: {
+  teamsRow: {
     marginTop: 4,
-    fontSize: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 6,
+  },
+  teamName: {
+    fontSize: 15,
     color: '#10213a',
     fontWeight: '600',
+  },
+  versus: {
+    color: '#44536b',
+    fontSize: 14,
+    fontWeight: '700',
   },
   meta: {
     marginTop: 4,

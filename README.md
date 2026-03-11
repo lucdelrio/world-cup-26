@@ -33,3 +33,29 @@ Add assets: `assets/icon.png`, `assets/adaptive-icon.png`, `assets/favicon.png` 
 - Android: `npm run build:android`
 
 Set the env vars in [expo.dev](https://expo.dev) → project → Secrets for production builds.
+
+## Ads (AdMob)
+
+This app already includes banner ad support via `react-native-google-mobile-ads`.
+
+### 1. Add banner unit IDs to `.env`
+
+```bash
+EXPO_PUBLIC_ADMOB_BANNER_ID_IOS=ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx
+EXPO_PUBLIC_ADMOB_BANNER_ID_ANDROID=ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx
+```
+
+If those variables are not set, the app falls back to AdMob test banner IDs.
+
+### 2. Set app-level AdMob IDs in native projects
+
+- iOS (`Info.plist`): `GADApplicationIdentifier`
+- Android (`AndroidManifest.xml`): `com.google.android.gms.ads.APPLICATION_ID`
+
+Use your app-level IDs from AdMob console (not banner unit IDs).
+
+### 3. Tracking and privacy
+
+- iOS ATT permission request is enabled at app startup.
+- Keep `NSUserTrackingUsageDescription` configured in iOS.
+- Complete privacy forms in App Store Connect and Google Play Console before release.
